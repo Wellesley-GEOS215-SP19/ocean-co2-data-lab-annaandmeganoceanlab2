@@ -1,4 +1,4 @@
-%% Add your names in a comment here at the beginning of the code!
+%% Anna and Megan 
 
 % Instructions: Follow through this code step by step, while also referring
 % to the overall instructions and questions from the lab assignment sheet.
@@ -7,26 +7,35 @@
 % The data file is included in your repository as “LDEO_GriddedCO2_month_flux_2006c.csv”
 % Your task is to write code to read this in to MATLAB
 % Hint: you can again use the function “readtable”, and use your first data lab code as an example.
-%<--
+filename = 'LDEO_GriddedCO2_month_flux_2006c.csv'
+CO2data = readtable(filename);
 
 %% 2a. Create new 3-dimensional arrays to hold reshaped data
 %Find each unique longitude, latitude, and month value that will define
 %your 3-dimensional grid
 longrid = unique(CO2data.LON); %finds all unique longitude values
- %<-- following the same approach, find all unique latitude values
- %<-- following the same approach, find all unique months
+latgrid = unique(CO2data.LAT);%<-- following the same approach, find all unique latitude values
+monthgrid = unique(CO2data.MONTH); %<-- following the same approach, find all unique months
 
 %Create empty 3-dimensional arrays of NaN values to hold your reshaped data
     %You can make these for any variables you want to extract - for this
     %lab you will need PCO2_SW (seawater pCO2) and SST (sea surface
     %temperature)
-%<--
-%<--
+SWco2 = NaN*zeros(length(longrid), length(latgrid), length(monthgrid));
+SStemp = NaN*zeros(length(longrid), length(latgrid), length(monthgrid));
+
 
 %% 2b. Pull out the seawater pCO2 (PCO2_SW) and sea surface temperature (SST)
 %data and reshape it into your new 3-dimensional arrays
 
-%<--
+for i = 1:size(SWco2)
+   indexlon(i) = find(CO2data.LON==longrid)
+   indexlat(i)= find(CO2data.LAT==latgrid)
+   indexmonth(i) = find(CO2data.MONTH==monthgrid)
+   
+   SWco2(indexlon, indexlat, indexmonth) = CO2data.PCO2_SW(i)
+   
+end
 
 %% 3a. Make a quick plot to check that your reshaped data looks reasonable
 %Use the imagesc plotting function, which will show a different color for
