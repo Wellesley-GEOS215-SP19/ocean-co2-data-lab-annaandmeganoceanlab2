@@ -69,13 +69,21 @@ title('January Sea Surface Temperature (^oC)')
 
 figure(2); clf
 worldmap world
-contourfm(latgrid, longrid, SStemp(:,:,2)','linecolor','none');
+contourfm(latgrid, longrid, SStemp(:,:,7)','linecolor','black');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('February Sea Surface Temperature (^oC)')
+title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
-%<--
+
+pCO2mean = mean(SWco2)
+
+figure(1); clf
+worldmap world
+contourfm(latgrid, longrid, pCO2mean(:,:,:),'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Annual Mean pCO2 (^oC)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 %<--

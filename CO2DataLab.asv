@@ -48,7 +48,7 @@ end
 %will have to pick one at a time to check - i.e. this example is just for
 %January
 
-imagesc(SST(:,:,1))
+imagesc(SStemp(:,:,1))
 
 %% 3b. Now pretty global maps of one month of each of SST and pCO2 data.
 %I have provided example code for plotting January sea surface temperature
@@ -57,25 +57,33 @@ imagesc(SST(:,:,1))
 
 figure(1); clf
 worldmap world
-contourfm(latgrid, longrid, SST(:,:,1)','linecolor','none');
+contourfm(latgrid, longrid, SStemp(:,:,1)','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('January Sea Surface Temperature (^oC)')
-
+%%
 %Check that you can make a similar type of global map for another month
 %and/or for pCO2 using this approach. Check the documentation and see
 %whether you can modify features of this map such as the contouring
 %interval, color of the contour lines, labels, etc.
 
-figure(1); clf
+figure(2); clf
 worldmap world
-contourfm(latgrid, longrid, SST(:,:,2)','linecolor','none');
+contourfm(latgrid, longrid, SStemp(:,:,7)','linecolor','black');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('February Sea Surface Temperature (^oC)')
+title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
-%<--
+
+pCO2mean = mean(SWco2)
+
+figure(1); clf
+worldmap world
+contourfm(latgrid, longrid, pCO2mean(:,:,:),'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Annual Mean pCO2 (^oC)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 %<--
