@@ -76,7 +76,7 @@ title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
 
-pCO2mean = mean(SWco2)
+pCO2mean = mean(CO2data.PCO2_SW)
 
 figure(1); clf
 worldmap world
