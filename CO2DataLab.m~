@@ -40,9 +40,7 @@ for i = 1:length(CO2data.LON)
           
    SStemp(lonind, latind, monthind) = CO2data.SST(i);
    
-   % for part 5- adding in atmospheric pCO2
-   
-   AIRco2(lonind,latind, monthind) = CO2data.PCO2_AIR(i);
+   % for part 5- adding in atm
 
 end
 
@@ -80,9 +78,9 @@ title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
 
-pCO2mean = mean(CO2data.PCO2_SW);
+pCO2mean = mean(CO2data.PCO2_SW)
   
-monthmean = mean(SWco2,3)';
+monthmean = mean(SWco2,3)'
 
 
 %mapping annual mean pCO2
@@ -96,15 +94,14 @@ title('Annual Mean pCO2 (^oC)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
 
-monthmeanair = mean(AIRco2, 3)';
+monthmeanair = 
 
-figure(4); clf
-worldmap world
-contourfm(latgrid, longrid, monthmean-monthmeanair,'linecolor','none');
-geoshow('landareas.shp','FaceColor','black')
-title('Difference in Mean Seawater and Atm pCO2 (^oC)')
-cmocean('balance', 'pivot',0);
-colorbar
+%figure(4); clf
+%worldmap world
+%contourfm(latgrid, longrid, XXXmonthmeanXXX,'linecolor','none');
+%colorbar
+%geoshow('landareas.shp','FaceColor','black')
+%title('Annual Mean pCO2 (^oC)')
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
 %<--
