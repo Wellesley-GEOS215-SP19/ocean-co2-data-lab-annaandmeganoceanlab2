@@ -81,15 +81,16 @@ title('July Sea Surface Temperature (^oC)')
 %% 4. Calculate and plot a global map of annual mean pCO2
 
 pCO2mean = mean(CO2data.PCO2_SW);
-  
-monthmean = mean(SWco2,3)';
+
+% annual mean seawater pCO2 for each location 
+aPCO2 = mean(SWco2,3)';
 
 
 %mapping annual mean pCO2
 
 figure(3); clf
 worldmap world
-contourfm(latgrid, longrid, monthmean,'linecolor','none');
+contourfm(latgrid, longrid, aPCO2,'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Annual Mean pCO2 (^oC)')
@@ -100,14 +101,18 @@ monthmeanair = mean(AIRco2, 3)';
 
 figure(4); clf
 worldmap world
-contourfm(latgrid, longrid, monthmean-monthmeanair,'linecolor','none');
+contourfm(latgrid, longrid, monthmean-368.84,'linecolor','none');
 geoshow('landareas.shp','FaceColor','black')
 title('Difference in Mean Seawater and Atm pCO2 (^oC)')
 cmocean('balance', 'pivot',0);
 colorbar
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
-%<--
+%variables for equation 1
+aTemp = mean(SStemp,3)';
+aPCO2 = mean(SWco2,3)';
+%aSST = 
+%pCO2_BP = repmat(SWco2,
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
