@@ -160,6 +160,7 @@ plot(squeeze(pCO2_BP(28,8,:)))
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 
 title('Seasonal Cycle For ROSS')
+%End of stations
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
 % Mark on thesese maps the locations of the three stations for which you plotted the
