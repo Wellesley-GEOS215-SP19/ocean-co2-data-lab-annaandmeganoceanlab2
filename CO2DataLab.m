@@ -99,8 +99,8 @@ geoshow('landareas.shp','FaceColor','black')
 title('Annual Mean pCO2 (^oC)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
-
-monthmeanair = mean(AIRco2, 3)';
+%addpath(C:\Users\megan\Documents\GitHub\Common-functions)
+monthmeanair = mean(AIRco2, 3);
 
 figure(4); clf
 worldmap world
@@ -112,17 +112,54 @@ colorbar
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
 %variables for equation 1
-aTemp = mean(SStemp,3)';
-aPCO2 = mean(SWco2,3)';
-%aSST = 
-%pCO2_BP = repmat(SWco2,
+aTemp = mean(SStemp,3);
+aPCO2 = mean(SWco2,3);
+
+%equation 1 (biophysical)
+eq1 = SWco2.*exp(0.0423.*(aTemp-SStemp));
+pCO2_BP = repmat(eq1, 1);
+
+
+%equation 2 (temp)
+eq2 = aPCO2.*exp(0.0423.*(SStemp-aTemp));
+pCO2_T = repmat(eq2,1);
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
 %section of 14 degrees longitude - I picked the middle point)
+%BATS
+%if CO2data.LAT == 32 & CO2data.LON == 244
 
-%<--
+plot(squeeze(SStemp(28,8,:)))
 
+hold on
+plot(squeeze(SWco2(28,8,:)))
+
+hold on
+plot(squeeze(pCO2_T(28, 8, :)))
+
+hold on
+plot(squeeze(pCO2_BP(28,8,:)))
+legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+
+title('Seasonal Cycle For BATS')
+%else
+%end
+
+%ROSS (-76 S lat / 177.5 lon)
+plot(squeeze(SStemp(28,8,:)))
+
+hold on
+plot(squeeze(SWco2(28,8,:)))
+
+hold on
+plot(squeeze(pCO2_T(28, 8, :)))
+
+hold on
+plot(squeeze(pCO2_BP(28,8,:)))
+legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+
+title('Seasonal Cycle For ROSS')
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
 % Mark on thesese maps the locations of the three stations for which you plotted the
