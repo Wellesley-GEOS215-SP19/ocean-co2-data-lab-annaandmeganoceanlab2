@@ -52,8 +52,11 @@ end
 %will have to pick one at a time to check - i.e. this example is just for
 %January
 
-imagesc(SStemp(:,:,1))
+%January
+%imagesc(SStemp(:,:,1))
 
+%July
+imagesc(SStemp(:,:,7))
 %% 3b. Now pretty global maps of one month of each of SST and pCO2 data.
 %I have provided example code for plotting January sea surface temperature
 %(though you may need to make modifications based on differences in how you
@@ -80,7 +83,7 @@ title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
 
-pCO2mean = mean(CO2data.PCO2_SW);
+%pCO2mean = mean(CO2data.PCO2_SW);
 
 % annual mean seawater pCO2 for each location 
 aPCO2 = mean(SWco2,3)';
@@ -101,9 +104,9 @@ monthmeanair = mean(AIRco2, 3)';
 
 figure(4); clf
 worldmap world
-contourfm(latgrid, longrid, monthmean-368.84,'linecolor','none');
+contourfm(latgrid, longrid, aPCO2-368.84,'linecolor','none');
 geoshow('landareas.shp','FaceColor','black')
-title('Difference in Mean Seawater and Atm pCO2 (^oC)')
+title('Annual Mean Difference Between Seawater and Atmospheric pCO2 (^oC)')
 cmocean('balance', 'pivot',0);
 colorbar
 
