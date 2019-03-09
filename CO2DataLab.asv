@@ -116,14 +116,15 @@ aTemp = mean(SStemp,3);
 aPCO2 = mean(SWco2,3);
 
 %equation 1 (biophysical)
-aTemp1 = repmat(aTemp,1,1,12); %repmat to change aTemp from 2D to 3D
+aTemp1 = repmat(aTemp,1,1,12) %repmat
 eq1 = SWco2.*exp(0.0423.*(aTemp1-SStemp));
-pCO2_BP = eq1;
+%pCO2_BP = repmat(eq1, 1);
 
 
 %equation 2 (temp)
-eq2 = aPCO2.*exp(0.0423.*(SStemp-aTemp1)); %aTemp1 is in here now
-pCO2_T = eq2;
+SStemp1 = repmat(SStemp,1,1,12)
+eq2 = aPCO2.*exp(0.0423.*(SStemp1-aTemp));
+%pCO2_T = repmat(eq2,1);
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
