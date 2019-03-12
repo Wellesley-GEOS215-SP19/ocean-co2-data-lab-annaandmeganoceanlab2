@@ -149,27 +149,7 @@ ylabel('LAT')
 %else
 %end
 
-
-%%%%%%%%%%%%%%%%
-%Ocean Station Papa (50 N lat / 145 W lon)
-% plot(squeeze(SStemp(28,8,:)))
-% 
-% hold on
-% plot(squeeze(SWco2(28,8,:)))
-% 
-% hold on
-% plot(squeeze(pCO2_T(28, 8, :)))
-% 
-% hold on
-% plot(squeeze(pCO2_BP(28,8,:)))
-% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
-% 
-% title('Seasonal Cycle For Papa')
-
-
-
-%%%%%%%%%%%%%%%%%%
-%ROSS (-76 S lat / 177.5 lon)
+%Ocean Station Papa (50 N lat /  lon)
 % plot(squeeze(SStemp(28,8,:)))
 % 
 % hold on
@@ -184,7 +164,20 @@ ylabel('LAT')
 % 
 % title('Seasonal Cycle For ROSS')
 
-
+%ROSS (-76 S lat / 177.5 lon)
+% plot(squeeze(SStemp(28,8,:)))
+% 
+% hold on
+% plot(squeeze(SWco2(28,8,:)))
+% 
+% hold on
+% plot(squeeze(pCO2_T(28, 8, :)))
+% 
+% hold on
+% plot(squeeze(pCO2_BP(28,8,:)))
+% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+% 
+% title('Seasonal Cycle For ROSS')
 %End of stations
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
