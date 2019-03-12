@@ -131,6 +131,12 @@ pCO2_T = eq2;
 %BATS
 %if CO2data.LAT == 32 & CO2data.LON == 244
 
+min(latgrid-4) 
+
+
+
+
+
 plot(squeeze(SStemp(28,8,:)))
 
 hold on
@@ -143,8 +149,8 @@ hold on
 plot(squeeze(pCO2_BP(28,8,:)))
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 title('Seasonal Cycle For BATS')
-xlabel('LON')
-ylabel('LAT')
+xlabel('Months')
+ylabel('y')
 
 %else
 %end
@@ -188,7 +194,7 @@ ylabel('LAT')
 %End of stations
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
-% Mark on thesese maps the locations of the three stations for which you plotted the
+% Mark on these maps the locations of the three stations for which you plotted the
 % seasonal cycle above
 
 %%%%%%%%%% page 1614 in Takahashi paper 
