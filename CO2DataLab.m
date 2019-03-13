@@ -155,7 +155,7 @@ ylabel('y')
 %else
 %end
 
-
+%%
 %%%%%%%%%%%%%%%%
 %Ocean Station Papa (50 N lat / 145 W lon)
 % plot(squeeze(SStemp(28,8,:)))
@@ -173,7 +173,7 @@ ylabel('y')
 % title('Seasonal Cycle For Papa')
 
 
-
+%%
 %%%%%%%%%%%%%%%%%%
 %ROSS (-76 S lat / 177.5 lon)
 % plot(squeeze(SStemp(28,8,:)))
@@ -197,28 +197,52 @@ ylabel('y')
 % Mark on these maps the locations of the three stations for which you plotted the
 % seasonal cycle above
 
-%%%%%%%%%% page 1614 in Takahashi paper 
+%page 1614 in Takahashi paper 
+
 %First map is biophysical amplitude 
 %equation in paper : (change in pco2)bio = (pco2 at Tmean)max - (pco2 at
 %Tmean)min
 
-%equation code
-%cpco2Bio = max(pCO2_BP) - min(pCO2_BP)
+%EQUATION CODE 
+%cpco2Bio = max(pCO2_BP) - min(pCO2_BP
 
+%GLOBAL MAP CODE
+% figure(5); clf
+% worldmap world
+% contourfm(latgrid, longrid, cpco2Bio,'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('Biophysical Amplitude')
 
-%%%%%%%%
+%%
+
 %Second map is temperature amplitude
 %equation in paper: (change in pco2)temp = (pco2 at Tobs)max - (pco2 at
 %Tobs) min
 
-%equation code
+%EQUATION CODE
 %cpco2Temp = max(pCO2_t) - min(pCO2_T)
 
-%%%%%%%%%
+%GLOBAL MAP CODE
+% figure(6); clf
+% worldmap world
+% contourfm(latgrid, longrid, cpco2Temp,'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('Temperature Amplitude')
+
+%%
+
 %Third map is the difference between the two (T-B)
 %equation in paper: (T-B) = (change in pco2)temp - (change in pco2)bio
 
-%equation code
-%cpco2Temp - cpco2Bio
+%EQUATION CODE
+%diff = cpco2Temp - cpco2Bio
 
-
+%GLOBAL MAP CODE
+% figure(7); clf
+% worldmap world
+% contourfm(latgrid, longrid, diff,'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('The Difference Between Temperature & Biophysical Amplitude')
