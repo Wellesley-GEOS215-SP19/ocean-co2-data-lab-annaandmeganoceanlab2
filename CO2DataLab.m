@@ -204,15 +204,15 @@ ylabel('y')
 %Tmean)min
 
 %EQUATION CODE 
-%cpco2Bio = max(pCO2_BP) - min(pCO2_BP
+cpco2Bio = max(pCO2_BP) - min(pCO2_BP);
 
 %GLOBAL MAP CODE
-% figure(5); clf
-% worldmap world
-% contourfm(latgrid, longrid, cpco2Bio,'linecolor','none');
-% colorbar
-% geoshow('landareas.shp','FaceColor','black')
-% title('Biophysical Amplitude')
+figure(5); clf
+worldmap world
+contourfm(latgrid, longrid, cpco2Bio,'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Biophysical Amplitude')
 
 %%
 
@@ -221,15 +221,15 @@ ylabel('y')
 %Tobs) min
 
 %EQUATION CODE
-%cpco2Temp = max(pCO2_t) - min(pCO2_T)
+cpco2Temp = max(pCO2_t) - min(pCO2_T)
 
 %GLOBAL MAP CODE
-% figure(6); clf
-% worldmap world
-% contourfm(latgrid, longrid, cpco2Temp,'linecolor','none');
-% colorbar
-% geoshow('landareas.shp','FaceColor','black')
-% title('Temperature Amplitude')
+figure(6); clf
+worldmap world
+contourfm(latgrid, longrid, cpco2Temp,'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Temperature Amplitude')
 
 %%
 
