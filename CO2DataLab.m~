@@ -40,7 +40,9 @@ for i = 1:length(CO2data.LON)
           
    SStemp(lonind, latind, monthind) = CO2data.SST(i);
    
-   % for part 5- adding in atm
+   % for part 5- adding in atmospheric pCO2
+   
+   AIRco2(lonind,latind, monthind) = CO2data.PCO2_AIR(i);
 
 end
 
@@ -50,8 +52,11 @@ end
 %will have to pick one at a time to check - i.e. this example is just for
 %January
 
-imagesc(SStemp(:,:,1))
+%January
+%imagesc(SStemp(:,:,1))
 
+%July
+imagesc(SStemp(:,:,7))
 %% 3b. Now pretty global maps of one month of each of SST and pCO2 data.
 %I have provided example code for plotting January sea surface temperature
 %(though you may need to make modifications based on differences in how you
@@ -78,43 +83,168 @@ title('July Sea Surface Temperature (^oC)')
 
 %% 4. Calculate and plot a global map of annual mean pCO2
 
-pCO2mean = mean(CO2data.PCO2_SW)
-  
-monthmean = mean(SWco2,3)'
+%pCO2mean = mean(CO2data.PCO2_SW);
 
+% annual mean seawater pCO2 for each location 
+aPCO2 = mean(SWco2,3)';
 
 %mapping annual mean pCO2
 
 figure(3); clf
 worldmap world
-contourfm(latgrid, longrid, monthmean,'linecolor','none');
+contourfm(latgrid, longrid, aPCO2,'linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Annual Mean pCO2 (^oC)')
 
 %% 5. Calculate and plot a global map of the difference between the annual mean seawater and atmosphere pCO2
+% used atmospheric pCO2 data from NOAA website
+%addpath(C:\Users\megan\Documents\GitHub\Common-functions)
+monthmeanair = mean(AIRco2, 3); % annual mean Atmos. pCO2 for each location
 
-monthmeanair = 
-
-%figure(4); clf
-%worldmap world
-%contourfm(latgrid, longrid, XXXmonthmeanXXX,'linecolor','none');
-%colorbar
-%geoshow('landareas.shp','FaceColor','black')
-%title('Annual Mean pCO2 (^oC)')
+figure(4); clf
+worldmap world
+contourfm(latgrid, longrid, aPCO2-368.84,'linecolor','none');
+geoshow('landareas.shp','FaceColor','black')
+title('Annual Mean Difference Between Seawater and Atmospheric pCO2 (^oC)')
+cmocean('balance', 'pivot',0);
+colorbar
 
 %% 6. Calculate relative roles of temperature and of biology/physics in controlling seasonal cycle
-%<--
+%variables for equation 1
+aTemp = mean(SStemp,3); %annual mean temp for each location- now a 2D array
+aPCO2 = mean(SWco2,3); %annual mean seawater pCO2 for each location- now a 2D array
+
+%equation 1 (biophysical effects)
+aTemp1 = repmat(aTemp,1,1,12); %repmat to change aTemp from 2D to 3D
+eq1 = SWco2.*exp(0.0423.*(aTemp1-SStemp)); 
+pCO2_BP = eq1; %3D array of BP effects
+
+
+%equation 2 (temp effects)
+eq2 = aPCO2.*exp(0.0423.*(SStemp-aTemp1)); %aTemp1 is in here now
+pCO2_T = eq2; %3D array of temp effects
 
 %% 7. Pull out and plot the seasonal cycle data from stations of interest
 %Do for BATS, Station P, and Ross Sea (note that Ross Sea is along a
 %section of 14 degrees longitude - I picked the middle point)
 
-%<--
+% figuring out lat&lon
+
+latstn = latgrid-4 %ends at 76 [-80, -76, -72...72, 76]
+lonstn = longrid - 2.5 %ends at 355 [0, 5, 10, 15...355] 
+
+min(latgrid); % -76
+min(longrid); % 2.5
+
+%% STATION PLOTS FOR PART 7
+%%%%%%%%%%%%
+%Ocean station BATS 32^0 50' N, 64^0 10' W -->latstn 32, lonstn 60+180=240?
+
+plot(squeeze(SStemp(28,8,:))) %sea surface temp
+
+hold on
+plot(squeeze(SWco2(28,8,:))) %seawater pCO2
+
+hold on
+plot(squeeze(pCO2_T(28, 8, :))) %seawater pCO2 temp effects
+
+hold on
+plot(squeeze(pCO2_BP(28,8,:))) %seawater pCO2 temp effects
+
+legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+title('Seasonal Cycle For BATS')
+xlabel('Months')
+ylabel('pCO2')
+
+
+%%
+%%%%%%%%%%%%%%%%
+%Ocean Station Papa (50 N lat / 145 W lon --> latstn 48, lonstn 145 + 180 = 325?? )
+% plot(squeeze(SStemp(28,8,:)))
+% 
+% hold on
+% plot(squeeze(SWco2(28,8,:)))
+% 
+% hold on
+% plot(squeeze(pCO2_T(28, 8, :)))
+% 
+% hold on
+% plot(squeeze(pCO2_BP(28,8,:)))
+% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+% 
+% title('Seasonal Cycle For Papa')
+
+%%
+%%%%%%%%%%%%%%%%%%
+%ROSS (76 S lat / 177.5 W lon --> latstn -76, lonstn 175 + 180 = 355??)
+% plot(squeeze(SStemp(28,8,:)))
+% 
+% hold on
+% plot(squeeze(SWco2(28,8,:)))
+% 
+% hold on
+% plot(squeeze(pCO2_T(28, 8, :)))
+% 
+% hold on
+% plot(squeeze(pCO2_BP(28,8,:)))
+% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+% 
+% title('Seasonal Cycle For ROSS')
+
+%End of stations
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
-% Mark on thesese maps the locations of the three stations for which you plotted the
+% Mark on these maps the locations of the three stations for which you plotted the
 % seasonal cycle above
 
-%<--
+%page 1614 in Takahashi paper 
+
+%First map is biophysical pCO2 effect seasonal amplitude 
+%equation in paper : (change in pco2)bio = (pco2 at Tmean)max - (pco2 at
+%Tmean)min
+
+%EQUATION CODE 
+cpco2Bio = max(pCO2_BP, [], 3) - min(pCO2_BP, [], 3); %now is 2D
+
+%GLOBAL MAP CODE
+figure(5); clf
+worldmap world
+contourfm(latgrid, longrid, cpco2Bio,'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Biophysical Effects on pCO2 Seasonal Amplitude')
+
+%%
+
+%Second map is temperature amplitude
+%equation in paper: (change in pco2)temp = (pco2 at Tobs)max - (pco2 at
+%Tobs) min
+
+%EQUATION CODE
+cpco2Temp = max(pCO2_t) - min(pCO2_T)
+
+%GLOBAL MAP CODE
+figure(6); clf
+worldmap world
+contourfm(latgrid, longrid, cpco2Temp,'linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('Temperature Amplitude')
+
+%%
+
+%Third map is the difference between the two (T-B)
+%equation in paper: (T-B) = (change in pco2)temp - (change in pco2)bio
+
+%EQUATION CODE
+%diff = cpco2Temp - cpco2Bio
+
+%GLOBAL MAP CODE
+% figure(7); clf
+% worldmap world
+% contourfm(latgrid, longrid, diff,'linecolor','none');
+% colorbar
+% geoshow('landareas.shp','FaceColor','black')
+% title('The Difference Between Temperature & Biophysical Amplitude')
