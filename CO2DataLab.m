@@ -139,77 +139,82 @@ lonstn = longrid - 2.5 %ends at 355 [0, 5, 10, 15...355]
 
 %BATS lat lon
 [minval1, id1] = min(abs(latgrid - 32)) %gives nearest LAT integer & where it is
-[minval11, id11] = min(abs(longrid - 64)) %gives nearest LON integer & where it is
+[minval11, id11] = min(abs(longrid - 296)) %gives nearest LON integer & where it is
 
 %Papa lat lon
 [minval2, id2] = min(abs(latgrid - 50))
-[minval22, id22] = min(abs(longrid - 145))
+[minval22, id22] = min(abs(longrid - 215))
 
 %ROSS lat lon
 [minval3, id3] = min(abs(latgrid - -76))
-[minval33, id33] = min(abs(longrid - 177))
+[minval33, id33] = min(abs(longrid - 183))
 
 %% STATION PLOTS FOR PART 7
 %%%%%%%%%%%%
-%Ocean station BATS 32^0 50' N, 64^0 10' W 
+%Ocean station BATS 32^0 50' N, -64^0 10' W 
 
 figure(5); clf
-plot(squeeze(SStemp(13,28,:))) %sea surface temp (id11,id1,:)
+plot(squeeze(SStemp(id11,id1,:))) %sea surface temp (id11,id1,:)
 
 hold on
-plot(squeeze(SWco2(13,28,:))) %seawater pCO2
+plot(squeeze(SWco2(id11,id1,:))) %seawater pCO2
 
 hold on
-plot(squeeze(pCO2_T(13,28,:))) %seawater pCO2 temp effects
+plot(squeeze(pCO2_T(id11,id1,:))) %seawater pCO2 temp effects
 
 hold on
-plot(squeeze(pCO2_BP(13,28,:))) %seawater pCO2 temp effects
+plot(squeeze(pCO2_BP(id11,id1,:))) %seawater pCO2 temp effects
 
+xlim([0 12])
+ylim([0 500])
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 title('Seasonal Cycle For BATS')
 xlabel('Months')
 ylabel('pCO2')
+hold off
+
 
 
 %%
 %%%%%%%%%%%%%%%%
-%Ocean Station Papa (50 N lat / 145 W lon)
+%Ocean Station Papa (50 N lat / -145 W lon)
 figure(6); clf
-plot(squeeze(SStemp(29,32,:)))
+plot(squeeze(SStemp(id22,id2,:)))
 
 hold on
-plot(squeeze(SWco2(29,32,:)))
+plot(squeeze(SWco2(id22, id2,:)))
 % 
 hold on
-plot(squeeze(pCO2_T(29,32, :)))
+plot(squeeze(pCO2_T(id22,id2,:)))
 % 
 hold on
-plot(squeeze(pCO2_BP(29,32,:)))
+plot(squeeze(pCO2_BP(id22,id2,:)))
 
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 title('Seasonal Cycle For Papa')
 xlabel('Months')
 ylabel('pCO2')
-
+hold off
 %% 
 %%%%%%%%%%%%%%%%%%ROSS is the only one that works for me and I don't know why!
-%ROSS (76 S lat / 177.5 W lon)
+%ROSS (76 S lat / -177.5 W lon)
 figure(7); clf
-plot(squeeze(SStemp(36,1,:)))
+plot(squeeze(SStemp(id33,id3,:)))
 
 hold on
-plot(squeeze(SWco2(36,1,:)))
+plot(squeeze(SWco2(id33,id3,:)))
 % 
 hold on
-plot(squeeze(pCO2_T(36,1,:)))
+plot(squeeze(pCO2_T(id33,id3,:)))
 % 
 hold on
-plot(squeeze(pCO2_BP(36,1,:)))
+plot(squeeze(pCO2_BP(id33,id3,:)))
 
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 title('Seasonal Cycle For ROSS')
 xlabel('Months')
 ylabel('pCO2')
+hold off
 %End of stations
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
@@ -236,6 +241,10 @@ contourfm(latgrid, longrid, cpco2Bio','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Biophysical Effects on pCO2 Seasonal Amplitude')
+plotm(latgrid(id1), longrid(id11), 'Marker', '.', 'Color', 'yellow', 'MarkerSize', 40);
+plotm(latgrid(id2), longrid(id22),'Marker', '.', 'Color', 'red', 'MarkerSize', 40);
+plotm(latgrid(id3), longrid(id33),'Marker', '.', 'Color', 'magenta', 'MarkerSize', 40);
+legend('','BATS', 'Papa', 'Ross', 'Location', 'SouthEastOutside')
 
 %%
 
@@ -253,6 +262,10 @@ contourfm(latgrid, longrid, cpco2Temp','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Temperature Effect Seasonal Amplitude')
+plotm(latgrid(id1), longrid(id11), 'Marker', '.', 'Color', 'yellow', 'MarkerSize', 40);
+plotm(latgrid(id2), longrid(id22),'Marker', '.', 'Color', 'red', 'MarkerSize', 40);
+plotm(latgrid(id3), longrid(id33),'Marker', '.', 'Color', 'magenta', 'MarkerSize', 40);
+legend('','BATS', 'Papa', 'Ross', 'Location', 'SouthEastOutside')
 
 %%
 
@@ -269,3 +282,8 @@ contourfm(latgrid, longrid, diff','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('The Difference Between Temperature & Biophysical Amplitude')
+cmocean('balance', 'pivot',0);
+plotm(latgrid(id1), longrid(id11), 'Marker', '.', 'Color', 'yellow', 'MarkerSize', 40);
+plotm(latgrid(id2), longrid(id22),'Marker', '.', 'Color', 'red', 'MarkerSize', 40);
+plotm(latgrid(id3), longrid(id33),'Marker', '.', 'Color', 'magenta', 'MarkerSize', 40);
+legend('','BATS', 'Papa', 'Ross', 'Location', 'SouthEastOutside')
