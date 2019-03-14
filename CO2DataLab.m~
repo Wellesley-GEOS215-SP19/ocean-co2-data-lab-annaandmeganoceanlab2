@@ -133,24 +133,38 @@ pCO2_T = eq2; %3D array of temp effects
 
 latstn = latgrid-4 %ends at 76 [-80, -76, -72...72, 76]
 lonstn = longrid - 2.5 %ends at 355 [0, 5, 10, 15...355] 
+% nevermind we don't need this (above)
 
-min(latgrid); % -76
-min(longrid); % 2.5
+%[minval,minID]=min(A, B) = A is min, B is where it is
+%diff between latgrid and the actual lat of station
+
+%BATS lat lon
+[minval1, id1] = min(abs(latgrid - 32)) %gives nearest LAT integer & where it is
+[minval11, id11] = min(abs(longrid - 64)) %gives nearest LON integer & where it is
+
+%Papa lat lon
+[minval2, id2] = min(abs(latgrid - 50))
+[minval22, id22] = min(abs(longrid - 145))
+
+%ROSS lat lon
+[minval3, id3] = min(abs(latgrid - -76))
+[minval33, id33] = min(abs(longrid - 177))
 
 %% STATION PLOTS FOR PART 7
 %%%%%%%%%%%%
-%Ocean station BATS 32^0 50' N, 64^0 10' W -->latstn 32, lonstn 60+180=240?
+%Ocean station BATS 32^0 50' N, 64^0 10' W 
 
-plot(squeeze(SStemp(28,8,:))) %sea surface temp
-
-hold on
-plot(squeeze(SWco2(28,8,:))) %seawater pCO2
+figure(5); clf
+plot(squeeze(SStemp(13,28,:))) %sea surface temp (id11,id1,:)
 
 hold on
-plot(squeeze(pCO2_T(28, 8, :))) %seawater pCO2 temp effects
+plot(squeeze(SWco2(13,28,:))) %seawater pCO2
 
 hold on
-plot(squeeze(pCO2_BP(28,8,:))) %seawater pCO2 temp effects
+plot(squeeze(pCO2_T(13,28,:))) %seawater pCO2 temp effects
+
+hold on
+plot(squeeze(pCO2_BP(13,28,:))) %seawater pCO2 temp effects
 
 legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
 title('Seasonal Cycle For BATS')
@@ -160,44 +174,52 @@ ylabel('pCO2')
 
 %%
 %%%%%%%%%%%%%%%%
-%Ocean Station Papa (50 N lat / 145 W lon --> latstn 48, lonstn 145 + 180 = 325?? )
-% plot(squeeze(SStemp(28,8,:)))
-% 
-% hold on
-% plot(squeeze(SWco2(28,8,:)))
-% 
-% hold on
-% plot(squeeze(pCO2_T(28, 8, :)))
-% 
-% hold on
-% plot(squeeze(pCO2_BP(28,8,:)))
-% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
-% 
-% title('Seasonal Cycle For Papa')
+%Ocean Station Papa (50 N lat / 145 W lon)
+figure(6); clf
+plot(squeeze(SStemp(29,32,:)))
 
-%%
-%%%%%%%%%%%%%%%%%%
-%ROSS (76 S lat / 177.5 W lon --> latstn -76, lonstn 175 + 180 = 355??)
-% plot(squeeze(SStemp(28,8,:)))
+hold on
+plot(squeeze(SWco2(29,32,:)))
 % 
-% hold on
-% plot(squeeze(SWco2(28,8,:)))
+hold on
+plot(squeeze(pCO2_T(29,32, :)))
 % 
-% hold on
-% plot(squeeze(pCO2_T(28, 8, :)))
-% 
-% hold on
-% plot(squeeze(pCO2_BP(28,8,:)))
-% legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
-% 
-% title('Seasonal Cycle For ROSS')
+hold on
+plot(squeeze(pCO2_BP(29,32,:)))
 
+legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+title('Seasonal Cycle For Papa')
+xlabel('Months')
+ylabel('pCO2')
+
+%% 
+%%%%%%%%%%%%%%%%%%ROSS is the only one that works for me and I don't know why!
+%ROSS (76 S lat / 177.5 W lon)
+figure(7); clf
+plot(squeeze(SStemp(36,1,:)))
+
+hold on
+plot(squeeze(SWco2(36,1,:)))
+% 
+hold on
+plot(squeeze(pCO2_T(36,1,:)))
+% 
+hold on
+plot(squeeze(pCO2_BP(36,1,:)))
+
+legend('SST', 'CO2 Levels', 'Temp Effect','BP Effect', 'location', 'east')
+title('Seasonal Cycle For ROSS')
+xlabel('Months')
+ylabel('pCO2')
 %End of stations
 
 %% 8. Reproduce your own versions of the maps in figures 7-9 in Takahashi et al. 2002
 % But please use better colormaps!!!
 % Mark on these maps the locations of the three stations for which you plotted the
 % seasonal cycle above
+
+
+%%%%% note I had to use the ' on each effect in global map codes
 
 %page 1614 in Takahashi paper 
 
@@ -209,9 +231,9 @@ ylabel('pCO2')
 cpco2Bio = max(pCO2_BP, [], 3) - min(pCO2_BP, [], 3); %now is 2D
 
 %GLOBAL MAP CODE
-figure(5); clf
+figure(8); clf
 worldmap world
-contourfm(latgrid, longrid, cpco2Bio,'linecolor','none');
+contourfm(latgrid, longrid, cpco2Bio','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
 title('Biophysical Effects on pCO2 Seasonal Amplitude')
@@ -223,15 +245,15 @@ title('Biophysical Effects on pCO2 Seasonal Amplitude')
 %Tobs) min
 
 %EQUATION CODE
-cpco2Temp = max(pCO2_t) - min(pCO2_T)
+cpco2Temp = max(pCO2_T, [], 3) - min(pCO2_T, [], 3);
 
 %GLOBAL MAP CODE
-figure(6); clf
+figure(9); clf
 worldmap world
-contourfm(latgrid, longrid, cpco2Temp,'linecolor','none');
+contourfm(latgrid, longrid, cpco2Temp','linecolor','none');
 colorbar
 geoshow('landareas.shp','FaceColor','black')
-title('Temperature Amplitude')
+title('Temperature Effect Seasonal Amplitude')
 
 %%
 
@@ -239,12 +261,12 @@ title('Temperature Amplitude')
 %equation in paper: (T-B) = (change in pco2)temp - (change in pco2)bio
 
 %EQUATION CODE
-%diff = cpco2Temp - cpco2Bio
+diff = cpco2Temp - cpco2Bio;
 
 %GLOBAL MAP CODE
-% figure(7); clf
-% worldmap world
-% contourfm(latgrid, longrid, diff,'linecolor','none');
-% colorbar
-% geoshow('landareas.shp','FaceColor','black')
-% title('The Difference Between Temperature & Biophysical Amplitude')
+figure(10); clf
+worldmap world
+contourfm(latgrid, longrid, diff','linecolor','none');
+colorbar
+geoshow('landareas.shp','FaceColor','black')
+title('The Difference Between Temperature & Biophysical Amplitude')
